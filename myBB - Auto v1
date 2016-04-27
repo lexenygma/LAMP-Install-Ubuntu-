@@ -9,17 +9,5 @@ service httpd start
 chkconfig httpd on
 #write php info file  
 echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
-#change directory to ./html
-cd /var/www/html
-#download myBB
-wget --content-disposition https://resources.mybb.com/downloads/mybb_1807.zip
-#unzip myBB
-unzip mybb_1807.zip "Upload/*"
-#rename Upload folder
-mv Upload/* .
-#remove zip file
-rm -Rf Upload mybb_1807.zip
-#rename config file
-mv inc/config.default.php inc/config.php
-#change permissions 
-chmod -R 0777 cache uploads inc/settings.php inc/config.php
+#copy from s3 to instance
+aws s3 cp s3://mybbhtml /var/www/html
